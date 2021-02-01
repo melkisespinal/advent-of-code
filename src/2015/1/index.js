@@ -7,7 +7,7 @@
  * Link: https://adventofcode.com/2015/day/1
  */
 
-import fs, { access } from 'fs';
+import fs from 'fs';
 
 /**
  * Part 1 of the challenge.
