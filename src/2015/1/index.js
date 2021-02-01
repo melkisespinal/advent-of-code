@@ -7,69 +7,79 @@
  * Link: https://adventofcode.com/2015/day/1
  */
 
-import fs from 'fs';
+import fs, { access } from 'fs';
 
 /**
  * Part 1 of the challenge.
- * @param {*} inputPath: The path to the file containing the input.
+ * ( means Santa goes UP
+ * ) means Santa goes DOWN
+ * 
+ * Time Complexity: O(n) - We go through the input one by one, one time.
+ * Space Complexity: O(1) - We only have the input file loaded into memory.
+ * No new space is used.
+ * 
+ * @param {*} inputPath The path to the file containing the input.
  */
 const whatIsSantasPositionPartOne = (inputPath) => {
     fs.readFile(inputPath, (err, data) => {
-        console.log('***************************************************************************');
-        console.time('santa-challenge');//start tracking the time to see performance
-        let position = 0; //starts at ground
         if(err){
             console.log('Error', err);
         }
+        console.time('part-one');
+        const directions = data.toString();
+        const directionsArr = directions.split('');
 
-        const steps = data.toString().split('');
-        for(const step of steps){
-            if(step === '('){
-                position++;
+        const answer = directionsArr.reduce((acc, currVal) => {
+            if(currVal === '('){
+                return acc += 1;
             }
-            else if(step === ')'){
-                position--;
+            else if(currVal === ')'){
+                return acc -= 1;
             }
-        }
+        }, 0);//starts at position 0 (floor)
 
-        console.timeEnd('santa-challenge');
-        console.log('Part One: ', `The instructions take Santa to floor #${position}.`);
-        console.log('***************************************************************************');
+        console.timeEnd('part-one');
+        console.log('Part One:', `The instructions take Santa to floor #${answer}.\n\n`);
     });
 }
 
 /**
  * Part 2 of the challenge.
- * @param {*} inputPath: The path to the file containing the input.
+ * ( means Santa goes UP
+ * ) means Santa goes DOWN
+ * 
+ * Time Complexity: O(n) - We go through the input one by one, one time.
+ * Space Complexity: O(1) - We only have the input file loaded into memory.
+ * No new space is used.
+ * 
+ * @param {*} inputPath The path to the file containing the input.
  */
 const whatIsSantasPositionPartTwo = (inputPath) => {
     fs.readFile(inputPath, (err, data) => {
-        console.log('***************************************************************************');       
-        console.time('santa-challenge');
-        let position = 1; //starts at 1
-        let basementPos = -1;
         if(err){
             console.log('Error', err);
         }
-    
-        const steps = data.toString().split('');
-        for(let i = 0; i < steps.length; i++){
-            const step = steps[i];
-            if(step === '('){
-                position++;
+        console.time('part-two');
+        const directions = data.toString();
+        const directionsArr = directions.split('');
+        let santaPosition = 0;
+        let santaBasementPos = -1;
+        
+        //some() is best here because it exits when the condition
+        //is met.
+        const answer = directionsArr.some((currVal, i) => {
+            if(currVal === '('){
+                santaPosition += 1;
             }
-            else if(step === ')'){
-                position--;
+            else if(currVal === ')'){
+                santaPosition -= 1;
             }
+            santaBasementPos = i+1;
+            return santaPosition < 0;
+        });
 
-            if(position === -1){//if Santa enters the basement, it's over
-                basementPos = i;
-                break;//with the hope to make it more efficient
-            }
-        }
-        console.timeEnd('santa-challenge');
-        console.log('Part Two: ', `The character that causes Santa to enter the basement is at position ${basementPos}.`);
-        console.log('***************************************************************************');
+        console.timeEnd('part-two');
+        console.log('Part Two:', `The character that causes Santa to enter the basement is at position ${santaBasementPos}.\n`);
     });
 }
 
