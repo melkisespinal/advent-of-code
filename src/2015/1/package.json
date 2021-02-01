@@ -1,0 +1,13 @@
+{
+  "name": "2015-day-1-santa",
+  "version": "1.0.0",
+  "description": "Advent of Code challenge - 2015/day/1",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
